@@ -20,17 +20,17 @@ class TestGame < Test::Unit::TestCase
     assert_equal(5, game.height)
   end
 
-  def test_make_box_with_given_dimensions
-    assert_equal("
-      ┌────────┐
-      │        │
-      └────────┘
-    ", @test_game1.make_box)
+  def test_make_2d_array_with_dimensions
+    # 10 x 3
+    @test_game1.make_ground
+    assert_equal([['┌', '─', '─', '─', '─', '─', '─', '─', '─', '┐'],
+                  ['│', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '│'],
+                  ['└', '─', '─', '─', '─', '─', '─', '─', '─', '┘']], @test_game1.ground)
 
-    assert_equal("
-      ┌──────┐
-      │      │
-      └──────┘
-    ", @test_game2.make_box)
+    # 8 x 3
+    @test_game2.make_ground
+    assert_equal([['┌', '─', '─', '─', '─', '─', '─', '┐'],
+                  ['│', ' ', ' ', ' ', ' ', ' ', ' ', '│'],
+                  ['└', '─', '─', '─', '─', '─', '─', '┘']], @test_game2.ground)
   end
 end

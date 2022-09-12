@@ -6,4 +6,8 @@ class Snake
     @length = length
     @speed = speed
   end
+
+  def make
+    "#{'o' * @length}@"
+  end
 end
