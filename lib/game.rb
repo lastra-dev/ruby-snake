@@ -2,11 +2,13 @@
 
 # Responsible of managing UI, score and snake.
 class Game
-  attr_accessor(:width, :height, :ground)
+  attr_accessor(:width, :height, :ground, :snake)
 
-  def set_dimensions(width, height)
+  def initialize(width, height, snake)
     @width = width
     @height = height
+    @snake = snake
+    make_ground
   end
 
   def make_ground
@@ -59,5 +61,18 @@ class Game
       print tile
       $stdout.flush
     end
+  end
+
+  def spawn_snake
+    first_free_space = 1
+    last_free_space_row = @height - 2
+    last_free_space_col = @width - 2
+    random_row = Random.rand(first_free_space..last_free_space_row)
+    random_col = Random.rand(first_free_space..last_free_space_col)
+    @ground[random_row][random_col] = @snake.head_symbol
+  end
+
+  def start
+    spawn_snake
   end
 end
