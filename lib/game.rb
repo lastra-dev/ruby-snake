@@ -10,14 +10,14 @@ class Game
   end
 
   def make_ground
-    create_ground
+    make_ground_array
     set_ground_top_border
     set_ground_bottom_border
     set_ground_vertical_borders
     set_ground_corners
   end
 
-  def create_ground
+  def make_ground_array
     @ground = Array.new(@height) { Array.new(@width) { ' ' } }
   end
 
