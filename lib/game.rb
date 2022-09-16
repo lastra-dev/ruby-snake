@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'io/console'
+
 # Responsible of managing UI, score and snake.
 class Game
   attr_accessor(:width, :height, :ground, :snake)
@@ -73,6 +75,27 @@ class Game
   end
 
   def start
+    clear_screen
     spawn_snake
+    print_ground
+    loop do
+      input = $stdin.getch
+      amend_broken_output
+      clear_screen # Needs to be cleared because of broken output.
+      print_ground
+      puts input
+    end
+  end
+
+  def clear_screen
+    if Gem.win_platform?
+      system 'cls'
+    else
+      system 'clear'
+    end
+  end
+
+  def amend_broken_output
+    $stdin.cooked!
   end
 end
