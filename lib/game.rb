@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 require 'io/console'
+require_relative './helpers/game_helpers'
 
 # Responsible of managing UI, score and snake.
 class Game
+  include GameHelpers
   attr_accessor(:width, :height, :ground, :snake)
 
   def initialize(width, height, snake)
@@ -65,13 +67,13 @@ class Game
     end
   end
 
+  def set_snake_position
+    @ground[@snake.head_row][@snake.head_col] = @snake.head_symbol
+  end
+
   def spawn_snake
-    first_free_space = 1
-    last_free_space_row = @height - 2
-    last_free_space_col = @width - 2
-    random_row = Random.rand(first_free_space..last_free_space_row)
-    random_col = Random.rand(first_free_space..last_free_space_col)
-    @ground[random_row][random_col] = @snake.head_symbol
+    @snake.set_random_position_on_ground(@width, @height)
+    set_snake_position
   end
 
   def start
@@ -79,12 +81,38 @@ class Game
     spawn_snake
     print_ground
     loop do
-      input = $stdin.getch
-      amend_broken_output
+      next unless DIRECTIONS.value? arrow_key = input
+
+      @snake.change_direction(arrow_key)
       clear_screen # Needs to be cleared because of broken output.
+      @snake.move
+      set_snake_position
       print_ground
-      puts input
     end
+  end
+
+  private
+
+  def input
+    input_text = $stdin.getch
+    exit(0) if input_text == "\u0003" # CONTROL + C
+    arrow_key = read_arrow_keys(input_text)
+    amend_broken_output
+    arrow_key
+  end
+
+  def read_arrow_keys(input_text)
+    return unless input_text == "\e"
+
+    # rubocop:disable Style/RescueModifier
+    input_text << $stdin.read_nonblock(3) rescue nil
+    input_text << $stdin.read_nonblock(2) rescue nil
+    # rubocop:enable Style/RescueModifier
+    input_text
+  end
+
+  def amend_broken_output
+    $stdin.cooked!
   end
 
   def clear_screen
@@ -93,9 +121,5 @@ class Game
     else
       system 'clear'
     end
-  end
-
-  def amend_broken_output
-    $stdin.cooked!
   end
 end
