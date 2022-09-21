@@ -7,7 +7,6 @@ require_relative './ground'
 # Responsible of managing UI, score and snake.
 class Game
   include GameHelpers
-  attr_accessor(:ground, :snake)
 
   def initialize(ground, snake)
     @ground = ground
@@ -16,6 +15,9 @@ class Game
 
   def set_snake_on_ground
     @ground.area[@snake.head_row][@snake.head_col] = @snake.head_symbol
+    @snake.length.times do |t|
+      @ground.area[@snake.head_row][@snake.head_col - t - 1] = @snake.tail_symbol
+    end
   end
 
   def spawn_snake

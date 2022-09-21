@@ -5,16 +5,10 @@ require_relative './helpers/game_helpers'
 # A snake.
 class Snake
   include GameHelpers
-  attr_accessor(:length,
-                :speed,
-                :head_symbol,
-                :tail_symbol,
-                :food_symbol,
-                :direction,
-                :head_row,
-                :head_col)
+  attr_reader(:head_symbol, :tail_symbol, :food_symbol)
+  attr_accessor(:length, :speed, :direction, :head_row, :head_col)
 
-  def initialize(length, speed)
+  def initialize(length = 2, speed = 5)
     @length = length
     @speed = speed
     @head_symbol = '@'

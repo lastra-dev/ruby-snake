@@ -3,11 +3,12 @@
 # Game ground
 class Ground
   include GameHelpers
-  attr_accessor(:width, :height, :area)
+  attr_accessor(:area)
+  attr_reader(:width, :height)
 
-  def initialize(width, height)
-    @width = width
-    @height = height
+  def initialize(dimensions)
+    @width = dimensions[:width]
+    @height = dimensions[:height]
     make_ground
   end
 
