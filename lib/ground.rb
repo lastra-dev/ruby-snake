@@ -6,9 +6,9 @@ class Ground
   attr_accessor(:area)
   attr_reader(:width, :height)
 
-  def initialize(dimensions)
-    @width = dimensions[:width]
-    @height = dimensions[:height]
+  def initialize(width:, height:)
+    @width = width
+    @height = height
     make_ground
   end
 
