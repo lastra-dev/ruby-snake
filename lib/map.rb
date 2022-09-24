@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Game ground
-class Ground
+# Game map
+class Map
   include GameHelpers
   attr_accessor(:area)
   attr_reader(:width, :height)
@@ -9,41 +9,41 @@ class Ground
   def initialize(width:, height:)
     @width = width
     @height = height
-    make_ground
+    make_map
   end
 
-  def make_ground
-    make_ground_array
-    set_ground_top_border
-    set_ground_bottom_border
-    set_ground_vertical_borders
-    set_ground_corners
+  def make_map
+    make_map_array
+    set_map_top_border
+    set_map_bottom_border
+    set_map_vertical_borders
+    set_map_corners
   end
 
-  def make_ground_array
+  def make_map_array
     @area = Array.new(@height) { Array.new(@width) { ' ' } }
   end
 
-  def set_ground_top_border
+  def set_map_top_border
     @area[0].each_index do |i|
       area[0][i] = '─'
     end
   end
 
-  def set_ground_bottom_border
+  def set_map_bottom_border
     area[@height - 1].each_index do |i|
       area[@height - 1][i] = '─'
     end
   end
 
-  def set_ground_vertical_borders
+  def set_map_vertical_borders
     area.each do |row|
       row[0] = '│'
       row[@width - 1] = '│'
     end
   end
 
-  def set_ground_corners
+  def set_map_corners
     area[0][0] = '┌'
     area[0][@width - 1] = '┐'
     area[@height - 1][0] = '└'
@@ -65,6 +65,6 @@ class Ground
   end
 
   def clear_area!
-    make_ground
+    make_map
   end
 end

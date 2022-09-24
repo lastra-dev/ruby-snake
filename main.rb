@@ -2,9 +2,9 @@
 
 require_relative './lib/game'
 require_relative './lib/snake'
-require_relative './lib/ground'
+require_relative './lib/map'
 
 snake = Snake.new
-ground = Ground.new width: 30, height: 10
-game = Game.new(ground, snake)
+map = Map.new width: 30, height: 10
+game = Game.new(map, snake)
 game.start

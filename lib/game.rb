@@ -2,42 +2,42 @@
 
 require 'io/console'
 require_relative './helpers/game_helpers'
-require_relative './ground'
+require_relative './map'
 
 # Responsible of managing UI, score and snake.
 class Game
   include GameHelpers
 
-  def initialize(ground, snake)
-    @ground = ground
+  def initialize(map, snake)
+    @map = map
     @snake = snake
   end
 
-  def set_snake_on_ground
-    @ground.area[@snake.head_row][@snake.head_col] = @snake.head_symbol
+  def set_snake_on_map
+    @map.area[@snake.head_row][@snake.head_col] = @snake.head_symbol
     @snake.length.times do |t|
-      @ground.area[@snake.head_row][@snake.head_col - t - 1] = @snake.tail_symbol
+      @map.area[@snake.head_row][@snake.head_col - t - 1] = @snake.tail_symbol
     end
   end
 
   def spawn_snake
-    @snake.set_random_position_on_ground(@ground.width, @ground.height)
-    set_snake_on_ground
+    @snake.set_random_position_on_map(@map.width, @map.height)
+    set_snake_on_map
   end
 
   def start
     clear_screen
     spawn_snake
-    @ground.render
+    @map.render
     loop do
       next unless DIRECTIONS.value? arrow_key = input
 
-      @snake.change_direction(arrow_key)
+      @snake.direction = arrow_key
       clear_screen # Needs to be cleared because of broken output.
-      @ground.clear_area!
+      @map.clear_area!
       @snake.move
-      set_snake_on_ground
-      @ground.render
+      set_snake_on_map
+      @map.render
     end
   end
 
