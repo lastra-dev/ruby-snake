@@ -13,18 +13,6 @@ class Game
     @snake = snake
   end
 
-  def set_snake_on_map
-    @map.area[@snake.head_row][@snake.head_col] = @snake.head_symbol
-    @snake.length.times do |t|
-      @map.area[@snake.head_row][@snake.head_col - t - 1] = @snake.tail_symbol
-    end
-  end
-
-  def spawn_snake
-    @snake.set_random_position_on_map(@map.width, @map.height)
-    set_snake_on_map
-  end
-
   def start
     clear_screen
     spawn_snake
@@ -34,7 +22,7 @@ class Game
 
       @snake.direction = arrow_key
       clear_screen # Needs to be cleared because of broken output.
-      @map.clear_area!
+      @map.clear!
       @snake.move
       set_snake_on_map
       @map.render
@@ -42,6 +30,18 @@ class Game
   end
 
   private
+
+  def set_snake_on_map
+    @map[@snake.head_row][@snake.head_col] = @snake.head_symbol
+    @snake.length.times do |t|
+      @map[@snake.head_row][@snake.head_col - t - 1] = @snake.tail_symbol
+    end
+  end
+
+  def spawn_snake
+    @snake.set_random_position_on_map(@map.width, @map.height)
+    set_snake_on_map
+  end
 
   def input
     input_text = $stdin.getch
